@@ -1,10 +1,9 @@
-package com.lance.salarycap.dal;
+package com.salarycap.dal;
 
 import org.apache.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.skife.jdbi.v2.DBI;
 
-import com.lance.salarycap.service.ContractOverviewService;
 import com.salarycap.dao.ContractOverviewDao;
 import com.salarycap.dao.DeadMoneyDao;
 import com.salarycap.dao.PlayerDao;
@@ -15,6 +14,7 @@ import com.salarycap.models.DeadMoney;
 import com.salarycap.models.Player;
 import com.salarycap.models.Team;
 import com.salarycap.models.YearlyContract;
+import com.salarycap.service.ContractOverviewService;
 import com.salarycap.utilities.RosterUtilities;
 
 public class DataSourceLayer {

@@ -20,13 +20,13 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 
-import com.lance.salarycap.service.ContractOverviewService;
-import com.lance.salarycap.service.DeadMoneyService;
-import com.lance.salarycap.service.YearlyContractService;
 import com.salarycap.annotations.Name;
 import com.salarycap.models.ContractOverview;
 import com.salarycap.models.DeadMoney;
 import com.salarycap.models.YearlyContract;
+import com.salarycap.service.ContractOverviewService;
+import com.salarycap.service.DeadMoneyService;
+import com.salarycap.service.YearlyContractService;
 import com.salarycap.utilities.Constants;
 import com.salarycap.utilities.JsonUtilities;
 

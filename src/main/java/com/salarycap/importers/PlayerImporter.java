@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import com.lance.salarycap.service.PlayerService;
 import com.salarycap.annotations.Name;
 import com.salarycap.models.Player;
+import com.salarycap.service.PlayerService;
 import com.salarycap.utilities.Constants;
 import com.salarycap.utilities.JsonUtilities;
 

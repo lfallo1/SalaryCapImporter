@@ -1,11 +1,11 @@
-package com.lance.salarycap.service;
+package com.salarycap.service;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.lance.salarycap.dal.DataSourceLayer;
-import com.lance.salarycap.dal.SalaryCapDal;
+import com.salarycap.dal.DataSourceLayer;
+import com.salarycap.dal.SalaryCapDal;
 import com.salarycap.models.YearlyContract;
 import com.salarycap.utilities.RosterUtilities;
 

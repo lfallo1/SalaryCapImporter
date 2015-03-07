@@ -1,8 +1,8 @@
-package com.lance.salarycap.service;
+package com.salarycap.service;
 
 import java.util.List;
 
-import com.lance.salarycap.dal.SalaryCapDal;
+import com.salarycap.dal.SalaryCapDal;
 import com.salarycap.models.Team;
 
 public class TeamService implements IRosterService<Team>{

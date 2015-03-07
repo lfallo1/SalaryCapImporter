@@ -1,4 +1,4 @@
-package com.lance.salarycap.service;
+package com.salarycap.service;
 
 import java.util.List;
 

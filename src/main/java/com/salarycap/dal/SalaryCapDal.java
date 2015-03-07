@@ -1,4 +1,4 @@
-package com.lance.salarycap.dal;
+package com.salarycap.dal;
 
 import java.util.ArrayList;
 import java.util.List;

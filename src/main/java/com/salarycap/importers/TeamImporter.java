@@ -2,10 +2,10 @@ package com.salarycap.importers;
 
 import java.util.List;
 
-import com.lance.salarycap.service.TeamService;
-import com.lance.salarycap.service.YearlyContractService;
 import com.salarycap.models.Team;
 import com.salarycap.models.YearlyContract;
+import com.salarycap.service.TeamService;
+import com.salarycap.service.YearlyContractService;
 
 public class TeamImporter implements Importer{
 	private TeamService teamService;

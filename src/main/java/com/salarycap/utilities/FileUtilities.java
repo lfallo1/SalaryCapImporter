@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.lance.salarycap.service.IRosterService;
+import com.salarycap.service.IRosterService;
 
 public class FileUtilities {
 	private static final String FILE_LOCATION = "C:\\Users\\lfallo1\\Desktop\\SalaryCapImport\\export\\";

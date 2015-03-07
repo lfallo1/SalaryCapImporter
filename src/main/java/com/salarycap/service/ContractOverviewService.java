@@ -1,9 +1,9 @@
-package com.lance.salarycap.service;
+package com.salarycap.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lance.salarycap.dal.SalaryCapDal;
+import com.salarycap.dal.SalaryCapDal;
 import com.salarycap.models.ContractOverview;
 
 public class ContractOverviewService implements IRosterService<ContractOverview> {

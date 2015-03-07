@@ -1,13 +1,13 @@
 package com.salarycap.app;
 
-import com.lance.salarycap.dal.DataSourceLayer;
-import com.lance.salarycap.dal.SalaryCapDal;
-import com.lance.salarycap.service.ContractOverviewService;
-import com.lance.salarycap.service.DeadMoneyService;
-import com.lance.salarycap.service.PlayerService;
-import com.lance.salarycap.service.YearlyContractService;
+import com.salarycap.dal.DataSourceLayer;
+import com.salarycap.dal.SalaryCapDal;
 import com.salarycap.importers.ContractImporter;
 import com.salarycap.importers.PlayerImporter;
+import com.salarycap.service.ContractOverviewService;
+import com.salarycap.service.DeadMoneyService;
+import com.salarycap.service.PlayerService;
+import com.salarycap.service.YearlyContractService;
 
 public class Driver {
 
