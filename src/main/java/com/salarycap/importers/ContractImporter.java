@@ -19,6 +19,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.salarycap.annotations.Name;
 import com.salarycap.models.ContractOverview;
@@ -72,26 +74,17 @@ public class ContractImporter implements Importer {
 				// Split into the three objects (cap, contracts, dead).
 				// Note: each object has capacity to be an array itself		
 				if(!JsonUtilities.isEmpty("ContractImporter", sb.toString())){
-					String[] objects = JsonUtilities.splitJsonArray(sb.toString());
-					List<String> formattedObjects = new ArrayList<>();
-					for (String s : objects) {
-						formattedObjects.add(JsonUtilities.stripAndFormat(s));
-					}
+					JSONObject object = new JSONObject(sb.toString());
+
 					// Iterate over each object (cap, contract, dead)
-					for (String json : formattedObjects) {
+					for(Object key : object.keySet()){
 						//Get a string representation of the object type
-						String key = JsonUtilities.getKey(json);
-						String value = null;
-						try {
-							//Separate value of object from name (key)
-							value = JsonUtilities.getValue(json);
-						} catch (IndexOutOfBoundsException e) {
-							logger.warn(e.getMessage());
-						}
+						JSONArray value = object.getJSONArray(key.toString());
+
 						// Qualifier (object.length() > 2)
 						//Determine (by key/objectType) which class to use
 						if(value.length() > 2){
-							switch (key) {
+							switch (key.toString()) {
 								case "cap":
 									importObject(YearlyContract.class, value);
 									break;
@@ -133,30 +126,22 @@ public class ContractImporter implements Importer {
 
 
 	
-	private <T> void importObject(Class<T> clazz, String object) {
+	private <T> void importObject(Class<T> clazz, JSONArray jsonArray) {
 		//Get array of objects of type T
-		String[] jsonObjects = object.split("}");
-		for (String obj : jsonObjects) {
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject obj = jsonArray.getJSONObject(i);
 			T instance = null;
 			try {
 				instance = (T) clazz.newInstance();
 			} catch (InstantiationException | IllegalAccessException e1) {
 				e1.printStackTrace();
 			}
-			String formattedObject = obj.replace("\"","").replace("{", "").replace("}", "");
-			//for each property in the current object
-			String[] properties = formattedObject.split(",");
-			for (String property : properties) {
+
+			for (Object keyset : obj.keySet()) {
 				//Split object to get key value pair of current property
-				String[] s = property.split(":");
-				String key = s[0];
-				String value = null;
-				try{
-					value = s[1];
-				}
-				catch(IndexOutOfBoundsException e){
-					//e.printStackTrace();
-				}
+				String key = keyset.toString();
+				String value = obj.getString(key);
+
 				for (Field f : instance.getClass().getDeclaredFields()) {
 	    			for (Annotation a : f.getDeclaredAnnotations()) {
 	    				if(a instanceof Name && ((Name)a).value().equals(key)){
@@ -171,7 +156,7 @@ public class ContractImporter implements Importer {
 								} catch (IllegalArgumentException
 										| IllegalAccessException e1) {
 								}
-								logger.warn(f.getName() + ": " + e.toString() + "(" + property + ")");
+								System.out.println(f.getName() + ": " + e.toString() + "(" + key + ")");
 							}
 	    				}
 					}

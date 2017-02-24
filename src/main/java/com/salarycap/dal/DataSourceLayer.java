@@ -108,8 +108,8 @@ public class DataSourceLayer {
 	private static DBI getJdbiInstance(){
 		DataSource ds = new DataSource();
 		ds.setUrl("jdbc:mysql://127.0.0.1:3306/salarycap_dev");
-		ds.setPassword("Raven$1996");
-		ds.setUsername("lfallon");
+		ds.setPassword("root");
+		ds.setUsername("root");
 		ds.setDriverClassName("com.mysql.jdbc.Driver");	
         DBI dbi = new DBI(ds);	
         return dbi;
@@ -120,7 +120,7 @@ public class DataSourceLayer {
 		contractOverviewDao.deleteAll();
 		yearlyContractDao.deleteAll();			
 		playerDao.deleteAll();
-		//teamDao.deleteAll();
+		teamDao.deleteAll();
 	}
 	
 	private Boolean validContractYear(YearlyContract yearlyContract){

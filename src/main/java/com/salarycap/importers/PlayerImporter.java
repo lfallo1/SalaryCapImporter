@@ -17,8 +17,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.salarycap.annotations.Name;
 import com.salarycap.models.Player;
@@ -52,6 +55,7 @@ public class PlayerImporter implements Importer {
 		        Scanner in = null;
 		        try
 		        {
+//		        	this.restTemplate.postForObject(Constants.OVERTHECAP_BASE_URL, request, responseType, uriVariables)
 		            post.setEntity(new UrlEncodedFormEntity(params));
 		            response = httpClient.execute(post);
 		            HttpEntity entity = response.getEntity();
@@ -63,33 +67,39 @@ public class PlayerImporter implements Importer {
 		            }
 		            EntityUtils.consume(entity);
 		            if(!JsonUtilities.isEmpty("PlayerImporter", sb.toString())){
-			    		String[] parts = sb.toString().replaceAll("null","\"0\"").split("\",");
-			    		Player p = new Player();
-			    		for (String string : parts) {
-			    			string = string.replaceAll("[\"{}]+", "");
-			    			String[] s = string.split(":");
-			    			for (Field f : p.getClass().getDeclaredFields()) {
-				    			for (Annotation a : f.getDeclaredAnnotations()) {
-				    				if(a instanceof Name && ((Name)a).value().equals(s[0])){
-				    					f.setAccessible(true);
-				    					try {
-											f.set(p, customConverter(f.getType().getSimpleName(), s[1]));
-										} catch (IllegalArgumentException
-												| IllegalAccessException 
-												| ArrayIndexOutOfBoundsException e) {
-											try {
-												f.set(p, customConverter(f.getType().getSimpleName(), null));
+		            	try{
+		            		JSONObject.testValidity(sb.toString());
+			            	JSONObject player = new JSONObject(sb.toString());
+				    		Player p = new Player();
+				    		for (Object key : player.keySet()) {
+				    			for (Field f : p.getClass().getDeclaredFields()) {
+					    			for (Annotation a : f.getDeclaredAnnotations()) {
+					    				if(a instanceof Name && ((Name)a).value().equals(key.toString())){
+					    					f.setAccessible(true);
+					    					try {
+												f.set(p, customConverter(f.getType().getSimpleName(), player.getString(key.toString())));
 											} catch (IllegalArgumentException
-													| IllegalAccessException e1) {
+													| IllegalAccessException 
+													| ArrayIndexOutOfBoundsException
+													| JSONException e) {
+												try {
+													f.set(p, customConverter(f.getType().getSimpleName(), null));
+												} catch (IllegalArgumentException
+														| IllegalAccessException e1) {
+												}
+					    						if(!key.toString().toLowerCase().startsWith("notes")){
+					    							System.out.println(key.toString() + ": " + e.toString() + "(" + sb.toString() +")");
+					    						}
 											}
-											logger.warn(string + ": " + e.toString() + "(" + sb.toString() +")");
-										}
-				    				}
-								}
-			    			}
-			    		}
-			    		playerService.add(p);
-			    		importSuccessCount++;
+					    				}
+									}
+				    			}
+				    		}
+				    		playerService.add(p);
+				    		importSuccessCount++;
+		            	} catch(JSONException e){
+		            		logger.debug(sb.toString() +" -> {not a valid json object}");
+		            	}
 		            }
 		            else{
 		            	importFailureCount++;
